@@ -1,74 +1,21 @@
-# 🪑 Rex Interactions
+# 🪑 rex-interactions
 
-A feature-rich RedM interaction script that allows players to interact with various objects in the world. Enhanced with ox_lib for a modern, organized menu system and improved user experience.
+**Enhanced interaction system for RedM** - Converted to ox_target with improved menu structure, smart icons, and better user experience.
 
 ## ✨ Features
 
-### 🎯 Interaction System
-- **100+ Interactive Objects** - Chairs, benches, beds, pianos, baths, and more
-- **Smart Detection** - Automatic detection of nearby interactive objects
-- **Position Variants** - Multiple sitting/sleeping positions for benches and beds (left, right, middle, up)
-- **Gender-Specific Animations** - Different scenarios for male and female characters
-- **Custom Objects Support** - Church benches, organs, shoe stands, and custom props
-
-### 🎨 Enhanced Menu System (ox_lib)
-- **📂 Organized Categories** - Interactions grouped into logical categories:
-  - 🪑 Seating (Chairs & Benches)
-  - 🛏️ Resting (Beds & Sleep)
-  - 🎵 Music (Pianos & Instruments)
-  - 🛁 Bathing (Bath Interactions)
-  - 💃 Dancing (Performance Animations)
-  - ⭕ Other
-- **🎯 Icons & Visual Feedback** - Each interaction has a relevant icon
-- **📏 Distance Display** - Shows how far each object is from you
-- **🎨 Customizable Colors** - Configure icon colors to match your server theme
-- **🔔 Notifications** - Visual feedback when starting/stopping interactions
-
-### 🛠️ Configuration Options
-- **Keybind Customization** - Default: Q key
-- **Toggle Notifications** - Enable/disable interaction feedback
-- **Custom Icon Colors** - Personalize menu appearance
-- **Banned Areas** - Prevent interactions in specific zones
-- **Effect System** - Add special effects (e.g., cleaning in baths)
-- **Multi-language Support** - English and German included
-
-### 🎭 Interaction Types
-
-#### Seating (25+ Scenarios)
-- Basic sitting positions
-- Drinking animations
-- Smoking (cigar, cigarette, rolling)
-- Musical instruments (banjo, guitar, harmonica, mandolin, concertina, jaw harp)
-- Activities (reading, knitting, whittling, fishing rod)
-- Grooming animations
-- And many more!
-
-#### Resting (7 Scenarios)
-- Multiple sleeping positions
-- Side and back sleeping
-- Ground sleeping variants
-- Bedroll positions
-
-#### Music (5 Scenarios)
-- Various piano playing styles
-- Normal, upperclass, riverboat, sketchy
-- Gender-specific animations
-
-#### Bathing (5 Animations)
-- Relaxing bath idle
-- Scrubbing animations (arms and legs)
-- Automatic dirt/blood cleaning effect
-
-#### Dancing (4 Animations)
-- Sword dance
-- Cancan dance
-- Fire dance
-- Snake dance
+- 🎯 **ox_target Integration** - Modern targeting system instead of native prompts
+- 🎨 **Smart Icons** - Contextual icons for every interaction type (beds 🛏️, pianos 🎵, chairs 🪑, etc.)
+- 📍 **Position Labels** - Clear indicators for multi-position objects (Left, Right, Middle, Upper)
+- ⚡ **Instant Cancel** - Press [J] anytime to stop current interaction
+- 🎭 **100+ Interactions** - Chairs, beds, pianos, baths, and more
+- ⚙️ **Highly Configurable** - Extensive config options for customization
 
 ## 📦 Installation
 
 ### Requirements
-- [ox_lib](https://github.com/overextended/ox_lib) - Required for menu system
+- [ox_lib](https://github.com/Rexshack-RedM/ox_lib)
+- [ox_target](https://github.com/Rexshack-RedM/ox_target)
 
 ### Steps
 
@@ -76,101 +23,124 @@ A feature-rich RedM interaction script that allows players to interact with vari
    - Clone or download this repository
 
 2. **Install dependencies**
-   - Ensure [ox_lib](https://github.com/Rexshack-RedM/ox_lib) is installed and started before this resource
+   ```lua
+   ensure ox_lib
+   ensure ox_target
+   ```
 
 3. **Add to resources folder**
-   - Rename the folder to `rex-interactions`
-   - Place in your server's resources directory
+   - Place `rex-interactions` in your server's resources folder
 
-4. **Update server.cfg**
-   ```cfg
-   ensure ox_lib
+4. **Configure the resource**
+   - Edit `shared/config.lua` for your preferences
+   - Edit `shared/translation.lua` for language support
+   - **Important**: Update `IsRanchStaff()` in `client/cl_client.lua` to match your framework
+
+5. **Start the resource**
+   ```lua
    ensure rex-interactions
    ```
 
-5. **Configure the script** *(Optional)*
-   - Edit `shared/config.lua` for general settings
-   - Edit `shared/translation.lua` for language customization
-
-6. **Restart your server**
+6. **Restart server**
 
 ## 🎮 Usage
 
-1. **Approach any interactive object** (chair, bed, piano, etc.)
-2. **Press Q** to open the interactions menu
-3. **Select your desired interaction** from the categorized menu
-4. **Press Q again** or select another interaction to stop
+### Starting Interactions
+1. Walk near any interactable object (chair, bed, piano, etc.)
+2. Look at the object - ox_target eye icon appears
+3. Press your targeting key (default: **Left Alt**)
+4. Select the interaction from the menu with icons
 
-### Controls
-- **Q** - Open interactions menu / Stop current interaction
+### Stopping Interactions
+- Press **[J]** at any time to stop the current interaction
+- No need to target the object again
+- Works instantly from anywhere
 
 ## ⚙️ Configuration
 
-### Key Settings (`shared/config.lua`)
+### Key Settings in `shared/config.lua`
 
 ```lua
-Config.Key = 0xDE794E3E -- [Q] - Change interaction keybind
-Config.Locale = 'en' -- 'en' or 'de' - Language
-Config.UseNotifications = true -- Show start/stop notifications
-Config.MenuIconColor = '#E8C547' -- Menu icon color (hex)
+-- General
+Config.Key = 0xF3830D8E -- [J] key for stopping interactions
 Config.DevMode = false -- Enable debug messages
+Config.Locale = 'en' -- Language (en, de)
+
+-- Notifications
+Config.EnableNotifications = true
+Config.InteractionCooldown = 1000 -- Milliseconds between interactions
+
+-- ox_target Menu
+Config.ShowAllInteractions = true -- Show all available interactions
+Config.GroupSimilarInteractions = true -- Group by category
+Config.ShowPositionInLabel = true -- Show (Left)/(Right) in labels
 ```
 
-### Banned Areas
-Prevent interactions in specific zones:
+## 🎯 Supported Interactions
 
-```lua
-Config.BannedAreas = {
-    {x = -306.482, y = 809.1139, z = 118.98, r = 5}, -- r = radius
-}
-```
+### Objects
+- **Seating**: 150+ chair and bench models
+- **Sleeping**: Beds, bedrolls, bunk beds
+- **Music**: Pianos, organs (5 piano models)
+- **Bathing**: Bathtubs and 8+ town bath locations
+- **Dancing**: Pole props with dance animations
+- **Custom**: Church benches, shoe stands, and more
 
-### Custom Effects
-Add special effects to interactions:
-
-```lua
-Config.Effects = {
-    ['clean'] = function()
-        local ped = PlayerPedId()
-        ClearPedEnvDirt(ped)
-        ClearPedDamageDecalByZone(ped, 10, 'ALL')
-        ClearPedBloodDamage(ped)
-    end
-}
-```
-
-## 🌍 Supported Languages
-- 🇬🇧 English
-- 🇩🇪 German
-
-Add your own language in `shared/translation.lua`!
+### Activities
+- 🪑 Sitting (multiple positions per object)
+- 🛏️ Sleeping (various sleep styles)
+- 🎹 Piano playing (5 styles)
+- 🎸 Guitar/Banjo/Mandolin
+- 🍷 Drinking
+- 🚬 Smoking
+- 📖 Reading
+- 🧶 Knitting
+- 🔪 Knife sharpening
+- 🎣 Fishing pose
+- 🛁 Bathing (with cleaning effect)
+- 💃 Dancing
 
 ## 🔧 Troubleshooting
 
-**Menu not showing?**
-- Ensure ox_lib is installed and started before rex-interactions
-- Check server console for errors
+### No targeting options appear
+- Ensure `ox_target` starts before `rex-interactions`
+- Check object model matches config
+- Verify you're within interaction radius
 
-**Interactions not working?**
-- Verify you're close enough to the object (within radius)
-- Check if the area is in the banned zones list
-- Make sure your character is not in combat or dead
+### Interactions don't work
+- Check F8 console for errors
+- Verify `ox_lib` is installed
+- Check Config.Interactions has valid data
 
-**Performance issues?**
-- Reduce the number of custom objects in config
-- Disable DevMode in production
+## 🎖️ Credits
 
-## 📝 Credits
+### Original Script
+- **[kibook](https://github.com/kibook)** - Original [redm-interactions](https://github.com/kibook/redm-interactions) creator
 
-- **Original Script**: [kibook](https://github.com/kibook) - [redm-interactions](https://github.com/kibook/redm-interactions)
-- **Improved Script**: [Spooni Development](https://github.com/Spooni-Development) - [spooni_interactions](https://github.com/Spooni-Development/spooni_interactions)
-- **Enhanced RSG Version**: Rex Development
-- **Original Menu System**: [ox_lib](https://github.com/overextended/ox_lib) by Overextended
+### Spooni Development
+- **[Spooni Development](https://github.com/Spooni-Development)** - [spooni_interactions](https://github.com/Spooni-Development/spooni_interactions) overhaul
+
+### Current Version
+- **ox_target conversion** with enhanced menu system, smart icons, and improved UX
+- Comprehensive documentation and configuration options
+
+## 📝 Version History
+
+### v2.1.0 (ox_target)
+- ✅ Converted to ox_target from native prompts
+- ✅ Added smart icon detection (15+ icon types)
+- ✅ Added position-aware labels
+- ✅ Added instant stop via [J] key
+- ✅ Enhanced configuration options
+- ✅ Comprehensive documentation
+
+### v2.0.0 (Spooni)
+- Updated from original 3-year-old script
+- Modernized codebase
+
+### v1.0.0 (Original)
+- Initial release by kibook
 
 ## 📄 License
 
-This project is a derivative work based on the original redm-interactions script. Please respect the original author's work and any applicable licenses.
-
----
-
-**Enjoy enhanced interactions in your RSG RedM server! 🎮**
+Please respect the licenses of the original creators and contributors.
